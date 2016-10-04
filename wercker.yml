@@ -35,6 +35,3 @@ deploy:
     - script:
         name: transfer application
         code: sshpass -p $DEPLOY_PASS scp -r -o stricthostkeychecking=no * $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
-    - script:
-        name: generate key if not exists
-        code: [ -f .env ] && echo "Found .env" || (cp .env.example .env && php artisan key:generate)
