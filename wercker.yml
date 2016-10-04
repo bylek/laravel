@@ -4,7 +4,7 @@ box:
 build:
   steps:
     - install-packages:
-        packages: openssl zlib1g-dev
+        packages: openssl zlib1g-dev sshpass
     - script:
         name: get composer
         code: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -23,3 +23,18 @@ build:
     - script:
         name: phpunit
         code: vendor/bin/phpunit
+        
+deploy:
+  steps:
+    - script:
+        name: clean vendor
+        code: |
+          rm -rf vendor
+          rm -rf node_modules
+          rm .env
+    - script:
+        name: transfer application
+        code: sshpass -p $DEPLOY_PASS scp -r -o stricthostkeychecking=no * $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+    - script:
+        name: generate key if not exists
+        code: [ -f .env ] && echo "Found .env" || (cp .env.example .env && php artisan key:generate)-app
