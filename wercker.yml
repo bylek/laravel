@@ -29,8 +29,10 @@ deploy:
     - install-packages:
         packages: sshpass
     - script:
-        name: ls
-        code: ls
+        name: clean
+        code: |
+          rm -rf vendor
+          rm -rf .env          
     - script:
         name: transfer application
         code: sshpass -p $DEPLOY_PASS scp -r -o stricthostkeychecking=no . $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
