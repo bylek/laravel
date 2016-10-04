@@ -26,15 +26,11 @@ build:
         
 deploy:
   steps:
-    - script:
-        name: clean vendor
-        code: |
-          rm -rf vendor
-          rm -rf node_modules
-          rm .env
+    - install-packages:
+        packages: sshpass
     - script:
         name: transfer application
         code: sshpass -p $DEPLOY_PASS scp -r -o stricthostkeychecking=no * $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
-    - scipt:
+    - script:
         name: ssh to server
         code: sshpass -p $DEPLOY_PASS ssh -o stricthostkeychecking=no * $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH "composer install; [ -f .env ] && echo 'Found .env' || (cp .env.example .env && php artisan key:generate)"
