@@ -3,9 +3,8 @@ box:
 
 build:
   steps:
-    - script:
-        name: install libs
-        code: apt-get update && apt-get install -y openssl zlib1g-dev
+    - install-packages:
+        packages: openssl zlib1g-dev
     - script:
         name: get composer
         code: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
