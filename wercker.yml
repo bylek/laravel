@@ -38,4 +38,4 @@ deploy:
         code: sshpass -p $DEPLOY_PASS scp -r -o stricthostkeychecking=no . $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
     - script:
         name: ssh to server
-        code: sshpass -p $DEPLOY_PASS ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH "composer install; [ -f .env ] && echo 'Found .env' || (cp .env.example .env && php artisan key:generate)"
+        code: sshpass -p $DEPLOY_PASS ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_PATH; composer install; [ -f .env ] && echo 'Found .env' || (cp .env.example .env && php artisan key:generate)"
