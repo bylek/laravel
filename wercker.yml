@@ -9,7 +9,7 @@ build:
         code: composer install
     - script:
         name: copy env
-        code: cp .env.example .env && 
+        code: cp .env.example .env
     - script:
         name: generate key
         code: php artisan key:generate
