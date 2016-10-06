@@ -1,0 +1,18 @@
+machine:
+  php:
+    version: 5.6
+
+dependencies:
+  pre:
+    - pecl install pdo mbstring zip
+  override:
+    - composer install
+    - cp .env.example .env
+    - php artisan key:generate
+  cache_directories:
+    - "~/.composer/cache"
+    - "vendor"
+    
+test:
+  override:
+   - vendor/bin/phpunit
